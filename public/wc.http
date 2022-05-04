@@ -1,0 +1,35 @@
+@host=http://wpnext.con
+@jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC93cG5leHQuY29uIiwiaWF0IjoxNjUxMDAzMDk0LCJuYmYiOjE2NTEwMDMwOTQsImV4cCI6MTY1MTYwNzg5NCwiZGF0YSI6eyJ1c2VyIjp7ImlkIjoiMSJ9fX0.-RDZeXflgeUsXTK2e-BRYKXQXcUfYboqWFte-JDKrlY
+
+###
+GET {{host}}/wp-json/wc/v3/products/categories
+Authorization: Bearer {{jwt}}
+
+###
+GET {{host}}/wp-json/wc/v3/products/categories/?slug=cultivo-indoor
+Authorization: Bearer {{jwt}}
+
+###
+GET {{host}}/wp-json/wc/v3/products/?category=19
+Authorization: Bearer {{jwt}}
+
+###
+GET {{host}}/wp-json/wc/v3/products
+Authorization: Bearer {{jwt}}
+
+###
+GET {{host}}/wp-json/wc/v3/products/?slug=mestre-kame-lendario
+Authorization: Bearer {{jwt}}
+
+###
+POST {{host}}/wp-json/jwt-auth/v1/token/validate
+Authorization: Bearer {{jwt}}
+
+###
+POST {{host}}/wp-json/jwt-auth/v1/token
+Content-Type: application/json
+
+{
+    "username": "bruno",
+    "password": "mangaka123"
+} 
