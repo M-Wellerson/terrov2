@@ -20,7 +20,7 @@ export default function Dynamic() {
         var headers = new Headers();
         let jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC93cG5leHQuY29uIiwiaWF0IjoxNjUwMjE1NjI4LCJuYmYiOjE2NTAyMTU2MjgsImV4cCI6MTY1MDgyMDQyOCwiZGF0YSI6eyJ1c2VyIjp7ImlkIjoiMSJ9fX0.5cProtYYf_gEFFj7utjdJgYff7E-OzWv_Rh4RNppNcs';
         headers.append("Authorization", `Bearer ${jwt}`);
-        fetch(`http://wpnext.con/wp-json/wc/v3/products/?slug=${slug}`, {
+        fetch(`http://api-terro.regularswitch.com/products/?slug=${slug}`, {
             headers
         })
             .then(e => e.json())
