@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MyMenu, BannerHome, Product, Lets, Contato, Footer } from "../component/index"
+import { MyMenu, BannerHome, Categories, Lets, Contato, Footer } from "../components/index"
 
 export default function HomePage({ allCats }) {
     useEffect(() => {
@@ -7,9 +7,9 @@ export default function HomePage({ allCats }) {
     }, []);
     return (
         <>
-            <MyMenu />
+            <MyMenu categories={allCats} />
             <BannerHome />
-            <Product categories={allCats} />
+            <Categories categories={allCats} />
             <Lets />
             <Contato />
             <Footer />
@@ -17,28 +17,14 @@ export default function HomePage({ allCats }) {
     )
 }
 
-export async function getServerSideProps(context) {
-
-    let base = process.env.PATH_URI;
-    let jwt = process.env.JWT;
-
-    let headers = new Headers();
-    headers.append("Authorization", `Bearer ${jwt}`)
-    let info = { headers }
-    
-    let reqAllCats = await fetch(`${base}/products/categories`, info)
-    let allCats = await reqAllCats.json()
-    
-    allCats = allCats.map(c => ({
-        name: c.name,
-        slug: c.slug,
-        id: c.id,
-        image: c.image?.src || null
-    })).filter(c => c.image)
+export async function getStaticProps(context) {
+    let reqAllCats = await fetch(`${process.env.API_URL}/categories`)
+    let allCats = await reqAllCats.json();
 
     return {
         props: {
             allCats
         },
+        revalidate: 10
     }
 }

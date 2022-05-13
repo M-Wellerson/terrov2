@@ -1,61 +1,47 @@
 import React, { useState, useEffect } from 'react'
-import { MyMenu, BannerCat, Cats, Footer, ListProd} from "../../component/index"
+import { MyMenu, BannerCat, Categories, Footer, ListProd} from "../../components/index"
 
-export default function Categoria({ slug, prods, allCats, catImg, catName  }) {
+export default function Categoria({ newcat, allCats }) {
     useEffect(() => {
         document.title = `Categoria`
     }, []);
     return <>
         <MyMenu />
-        <BannerCat img={catImg} name={catName} />
-        <ListProd prods={prods} />
-        <Cats categories={allCats} />
+        <BannerCat img={newcat.image} name={newcat.name} />
+        <ListProd prods={newcat.products} />
+        <Categories categories={allCats} />
         <Footer />
     </>
 }
 
-export async function getServerSideProps(context) {
+export async function getStaticPaths() {
+    let reqCategories = await fetch(`${process.env.API_URL}/categories`);
+    let categories = await reqCategories.json();
 
-    let base = process.env.PATH_URI;
-    let jwt = process.env.JWT;    
+    const paths = categories.map( category => {
+        return { params: { slug: category.slug } }
+    } )
 
-    let headers = new Headers();
-    headers.append("Authorization", `Bearer ${jwt}`)
-    let info = { headers }
+    return {
+        paths,
+        fallback: false
+    }
+}
 
-    let slug = context.query.slug
+export async function getStaticProps(context) {
+    const { slug } = context.params;
 
-    let reqCast = await fetch(`${base}/products/categories?slug=${slug}`, info)
-    let cat = await reqCast.json()
+    let newreqCast = await fetch(`${process.env.API_URL}/category?slug=${slug}`);
+    let newcat     = await newreqCast.json();
 
-    let catID = cat[0].id
-
-    let reqProds = await fetch(`${base}/products/?category=${catID}`, info)
-    let prods = await reqProds.json()
-    prods = prods.map(p => ({
-        name: p.name,
-        slug: p.slug,
-        id: p.id,
-        image: p.images[0].src
-    }))
-
-    let reqAllCats = await fetch(`${base}/products/categories`, info)
+    let reqAllCats = await fetch(`${process.env.API_URL}/categories`);
     let allCats = await reqAllCats.json()
-    allCats = allCats.map(c => ({
-        name: c.name,
-        slug: c.slug,
-        id: c.id,
-        image: c.image?.src || null
-    })).filter(c => c.image)
 
     return {
         props: {
-            slug,
-            catID,
-            catImg: cat[0].image.src,
-            catName: cat[0].name,
-            prods,
+            newcat,
             allCats
         },
+        revalidate: 10
     }
 }
