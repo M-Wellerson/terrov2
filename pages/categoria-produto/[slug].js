@@ -6,11 +6,11 @@ export default function Categoria({ newcat, allCats }) {
         document.title = `Categoria`
     }, []);
     return <>
-        <MyMenu />
-        <BannerCat img={newcat.image} name={newcat.name} />
-        <ListProd prods={newcat.products} />
+        <MyMenu colorTheme={newcat.custom_fields.cor_tema} colorFont={newcat.custom_fields.cor_fonte} />
+        <BannerCat img={newcat.image} name={newcat.name} colorTheme={newcat.custom_fields.cor_tema} colorFont={newcat.custom_fields.cor_fonte}  />
+        <ListProd prods={newcat.products} colorTheme={newcat.custom_fields.cor_tema} colorFont={newcat.custom_fields.cor_fonte} />
         <Categories categories={allCats} />
-        <Footer />
+        <Footer corBg={newcat.custom_fields.cor_tema} corText={newcat.custom_fields.cor_fonte} />
     </>
 }
 
