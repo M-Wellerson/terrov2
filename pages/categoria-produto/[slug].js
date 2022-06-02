@@ -5,22 +5,26 @@ export default function Categoria({ newcat, allCats }) {
     useEffect(() => {
         document.title = 'Terro'
     }, []);
+    const text = newcat.custom_fields.cor_fonte || '#225439'
+    const bg = newcat.custom_fields.cor_tema||'#EDDFD0'
     return <>
-        <MyMenu categories={allCats} colorTheme={newcat.custom_fields.cor_tema} colorFont={newcat.custom_fields.cor_fonte} />
-        <BannerCat img={newcat.image} name={newcat.name} colorTheme={newcat.custom_fields.cor_tema} colorFont={newcat.custom_fields.cor_fonte}  />
-        <ListProd prods={newcat.products} colorTheme={newcat.custom_fields.cor_tema} colorFont={newcat.custom_fields.cor_fonte} />
-        <Categories categories={allCats} colorTheme={newcat.custom_fields.cor_tema} colorFont={newcat.custom_fields.cor_fonte} />
-        <Footer corBg={newcat.custom_fields.cor_tema||'#EDDFD0'} corText={newcat.custom_fields.cor_fonte|| '#225439'} />
+        <MyMenu categories={allCats} colorTheme={bg} colorFont={text} />
+        <BannerCat img={newcat.image} name={newcat.name} colorTheme={bg} colorFont={text}  />
+        <ListProd prods={newcat.products} colorTheme={bg} colorFont={text} />
+        <Categories categories={allCats} colorTheme={bg} colorFont={text} />
+        <Footer corBg={bg} corText={text} />
     </>
 }
 
 export async function getStaticPaths() {
     let reqCategories = await fetch(`${process.env.API_URL}/categories`);
     let categories = await reqCategories.json();
+   
 
     const paths = categories.map( category => {
         return { params: { slug: category.slug } }
     } )
+
 
     return {
         paths,
