@@ -17,12 +17,12 @@ export default function Categories({ categories, colorTheme, colorFont }) {
         desktop: {
             breakpoint: { max: 3000, min: 1024 },
             items: 3,
-            slidesToSlide: 3
+            slidesToSlide: 1
         },
         tablet: {
             breakpoint: { max: 1024, min: 464 },
             items: 2,
-            slidesToSlide: 2
+            slidesToSlide: 1
         },
         mobile: {
             breakpoint: { max: 464, min: 0 },
@@ -65,8 +65,9 @@ export default function Categories({ categories, colorTheme, colorFont }) {
                 </span>
                 <Carousel
                     swipeable={true}
-                    draggable={true}
+                    draggable={false}
                     showDots={false}
+                    centerMode={true}
                     responsive={responsive}
                     ssr={true}
                     infinite={true}
@@ -93,7 +94,7 @@ export default function Categories({ categories, colorTheme, colorFont }) {
                                         />
                                     </div>
                                     <div className="mt-4 flex justify-start gap-6">
-                                        <span className='font-TTHoves text-Light-Orange uppercase text-xl'>{cat.name}</span>
+                                        <span className='font-TTHoves text-Light-Orange uppercase text-sm lg:text-xl'>{cat.name}</span>
                                         <Image
                                             src="/ico/arrow.svg"
                                             alt="Arrows"

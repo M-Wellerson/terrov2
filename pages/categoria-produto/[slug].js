@@ -3,7 +3,7 @@ import { MyMenu, BannerCat, Categories, Footer, ListProd} from "../../components
 
 export default function Categoria({ newcat, allCats }) {
     useEffect(() => {
-        document.title = 'Terro'
+        document.title = newcat.name
     }, []);
     const text = newcat.custom_fields.cor_fonte || '#225439'
     const bg = newcat.custom_fields.cor_tema||'#EDDFD0'
