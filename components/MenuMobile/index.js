@@ -3,6 +3,7 @@ import Terror from "../Icon/Terror.js"
 import { motion } from "framer-motion"
 import react, { useState } from "react"
 import Link from 'next/link'
+import SetaMenu from "../Icon/SetaMenu.js"
 
 export default function MenuMobile({ colorTheme, colorFont, categories }) {
 
@@ -64,12 +65,12 @@ export default function MenuMobile({ colorTheme, colorFont, categories }) {
         },
     }
 
-    const listCategories = [
-        { text: "jardinagem urbana", href: "/" },
-        { text: "cultivo indoors", href: "/" },
-        { text: "fertilizantes", href: "/" },
-        { text: "acessórios", href: "/" },
-    ]
+
+
+    const listCategories = categories.map( cat => ({
+        text: cat.name,
+        href: `/categoria-produto/${cat.slug}`
+    }) )
 
     function LinkSubMenuMobile({ href, text, color }) {
         return <div
@@ -96,11 +97,20 @@ export default function MenuMobile({ colorTheme, colorFont, categories }) {
             <Link href={href}>
                 <a className="flex justify-between" >
                     {text}
-                    {sub && <span onClick={toggleMenuSub}> * </span>}
+                    {sub && <span 
+                    className="w-[22px] h-[22px] mt-5"
+                    onClick={toggleMenuSub}
+                    style={{
+                        transform: !isOpenSub ? "rotate(0deg)" :  "rotate(90deg)",
+                        transition: "all .3s ease-in-out",
+                    }}
+                    >                     
+                    <SetaMenu color={color} />
+                    </span>}
                 </a>
             </Link>
             <div className={`${isOpenSub && 'hidden'}`}>
-                {sub && sub.map(c => <div key={Math.random()}><LinkSubMenuMobile   {...c} /></div>)}
+                {sub && sub.map(c => <div onClick={_=> setIsOpen(false)}  key={Math.random()}><LinkSubMenuMobile   {...c} /></div>)}
             </div>
         </div>
     }
